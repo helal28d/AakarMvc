@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Aakar.Models.rom_images>
+
+@{
+    Layout = null;
+
+}
+<div>
+    <table class="table">
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @{
+                        var base64 = Convert.ToBase64String(item.image);
+                        var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
+
+                    }
+                    <img style="width:100%;height:350px;" src="@imgsrc" />
+                </td>
+                <td> @Html.ActionLink("Delete", "Delete", new { id = item.id })</td>
+
+                
+            </tr>}
+        </table>
+    </div>
+ 

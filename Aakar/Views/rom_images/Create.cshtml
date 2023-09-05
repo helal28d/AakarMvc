@@ -1,0 +1,53 @@
+﻿@model Aakar.Models.rom_images
+
+@{
+    Layout = null;
+    var id = (int)ViewBag.apart_id;
+}
+
+<div>
+    <h4>اضافة المزيد من الصور</h4>
+    @using (Ajax.BeginForm("Create", "rom_images",
+                        new AjaxOptions
+                        {
+                            InsertionMode = InsertionMode.Replace,
+                            HttpMethod = "POST",
+                            UpdateTargetId = "romimg",
+                        }, new { enctype = "multipart/form-data" }))
+    {
+
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+
+                <div class="col-md-10">
+                    <input type="file" id="image" name="postedFile" />
+                </div>
+            </div>
+
+            <div class="form-group" style="display:none;">
+                @Html.LabelFor(model => model.apart_id, "apart_id", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input type="text" id="apart_id" name="apart_id" value="@ViewBag.apart_id" />
+
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="حفظ" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div class="panel" id="romimg">
+    
+    @Html.Action("Index", "rom_images", id)
+</div>
+

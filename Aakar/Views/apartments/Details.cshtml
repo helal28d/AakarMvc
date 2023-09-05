@@ -1,0 +1,110 @@
+﻿@model Aakar.Models.apartment
+
+@{
+   
+    ViewBag.Title = "Details";
+}
+
+<div class="row">
+    <div class="col-lg-6">
+        <div>
+            <h4>تفاصيل الشقة</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.country)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.country)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.city)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.city)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.area)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.area)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.floor)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.floor)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.room_count)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.room_count)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.price)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.price)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.details)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.details)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.available)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.available)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.kiswa)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.kiswa)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.main_img)
+                </dt>
+
+                <dd>
+
+                    @{
+                        var base64 = Convert.ToBase64String(Model.main_img);
+                        var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
+
+                    }
+                    <img src="@imgsrc" style="max-height:250px;" />
+
+                </dd>
+
+            </dl>
+        </div>
+
+    </div>
+    <div class="col-lg-6">
+       <label style="margin-top:20px;"></label>
+       @Html.Action("Create", "rom_images", Model.id)                
+    </div>
+</div>
+ 

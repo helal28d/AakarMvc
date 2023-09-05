@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Aakar.Models.apartment>
+
+@{
+    ViewBag.Title = "الرئيسية";
+}
+<link href="~/Content/style.css" rel="stylesheet" />
+
+<div class="main">
+
+
+    <div style="margin-top:60px;">
+        <h2>عقارات للإيجار في سوريا : </h2>
+    </div>
+    <div class="w3l_main_grids">
+        @foreach (var item in Model)
+        {
+            <div class="w3l_main_grid">
+                <div class="w3l_main_grid_top">
+                    <h3>@Html.DisplayFor(modelItem => item.country)<span> - </span>@Html.DisplayFor(modelItem => item.city)</h3>
+                    @{
+                        var base64 = Convert.ToBase64String(item.main_img);
+                        var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
+
+                    }
+                    <img src="@imgsrc" />
+                </div>
+                <div class="w3l_main_grid_middle">
+                    <ul>
+                        <li>المدينة : @Html.DisplayFor(modelItem => item.area)</li>
+                        <li>الطابق: @Html.DisplayFor(modelItem => item.floor)</li>
+                        <li>الإكساء: @Html.DisplayFor(modelItem => item.kiswa)</li>
+                    </ul>
+                </div>
+                <div class="w3ls_order">
+                    <h3>@Html.DisplayFor(modelItem => item.price)<span> ل.س</span></h3>
+                    
+                    <a class="popup-with-zoom-anim" href="#small-dialog">تفاصيل</a>
+                </div>
+            </div>
+
+
+                        }
+        <div class="clear"> </div>
+    </div>
+
+</div>

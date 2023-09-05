@@ -1,0 +1,408 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AakarModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="apartments">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="country" Type="nvarchar" MaxLength="50" />
+          <Property Name="city" Type="nvarchar" MaxLength="50" />
+          <Property Name="area" Type="nvarchar" MaxLength="50" />
+          <Property Name="floor" Type="nvarchar" MaxLength="50" />
+          <Property Name="room_count" Type="int" />
+          <Property Name="price" Type="int" />
+          <Property Name="details" Type="nvarchar" MaxLength="300" />
+          <Property Name="available" Type="bit" />
+          <Property Name="kiswa" Type="nvarchar" MaxLength="50" />
+          <Property Name="main_img" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="comments">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="text" Type="nvarchar(max)" />
+          <Property Name="apart_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="rentals">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" />
+          <Property Name="apartment_id" Type="int" />
+          <Property Name="rental_date" Type="date" />
+          <Property Name="rental_period" Type="nvarchar" MaxLength="50" />
+          <Property Name="price" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="rom_images">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="apart_id" Type="int" Nullable="false" />
+          <Property Name="image" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="phone" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" />
+          <Property Name="role" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_comments_apartments">
+          <End Role="apartments" Type="Self.apartments" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="comments" Type="Self.comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="apartments">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="comments">
+              <PropertyRef Name="apart_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_comments_users">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="comments" Type="Self.comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="comments">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rentals_apartments">
+          <End Role="apartments" Type="Self.apartments" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="rentals" Type="Self.rentals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="apartments">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="rentals">
+              <PropertyRef Name="apartment_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rentals_users">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="rentals" Type="Self.rentals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="rentals">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rom_images_apartments">
+          <End Role="apartments" Type="Self.apartments" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="rom_images" Type="Self.rom_images" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="apartments">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="rom_images">
+              <PropertyRef Name="apart_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AakarModel1StoreContainer">
+          <EntitySet Name="apartments" EntityType="Self.apartments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="comments" EntityType="Self.comments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rentals" EntityType="Self.rentals" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rom_images" EntityType="Self.rom_images" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_comments_apartments" Association="Self.FK_comments_apartments">
+            <End Role="apartments" EntitySet="apartments" />
+            <End Role="comments" EntitySet="comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_comments_users" Association="Self.FK_comments_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="comments" EntitySet="comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rentals_apartments" Association="Self.FK_rentals_apartments">
+            <End Role="apartments" EntitySet="apartments" />
+            <End Role="rentals" EntitySet="rentals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rentals_users" Association="Self.FK_rentals_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="rentals" EntitySet="rentals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rom_images_apartments" Association="Self.FK_rom_images_apartments">
+            <End Role="apartments" EntitySet="apartments" />
+            <End Role="rom_images" EntitySet="rom_images" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AakarModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="apartment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="city" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="area" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="floor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="room_count" Type="Int32" />
+          <Property Name="price" Type="Int32" />
+          <Property Name="details" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="available" Type="Boolean" />
+          <Property Name="kiswa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="main_img" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="comments" Relationship="Self.FK_comments_apartments" FromRole="apartments" ToRole="comments" />
+          <NavigationProperty Name="rentals" Relationship="Self.FK_rentals_apartments" FromRole="apartments" ToRole="rentals" />
+          <NavigationProperty Name="rom_images" Relationship="Self.FK_rom_images_apartments" FromRole="apartments" ToRole="rom_images" />
+        </EntityType>
+        <EntityType Name="comment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="apart_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="apartment" Relationship="Self.FK_comments_apartments" FromRole="comments" ToRole="apartments" />
+          <NavigationProperty Name="user" Relationship="Self.FK_comments_users" FromRole="comments" ToRole="users" />
+        </EntityType>
+        <EntityType Name="rental">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" />
+          <Property Name="apartment_id" Type="Int32" />
+          <Property Name="rental_date" Type="DateTime" Precision="0" />
+          <Property Name="rental_period" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="price" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="apartment" Relationship="Self.FK_rentals_apartments" FromRole="rentals" ToRole="apartments" />
+          <NavigationProperty Name="user" Relationship="Self.FK_rentals_users" FromRole="rentals" ToRole="users" />
+        </EntityType>
+        <EntityType Name="rom_images">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="apart_id" Type="Int32" Nullable="false" />
+          <Property Name="image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="apartment" Relationship="Self.FK_rom_images_apartments" FromRole="rom_images" ToRole="apartments" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="comments" Relationship="Self.FK_comments_users" FromRole="users" ToRole="comments" />
+          <NavigationProperty Name="rentals" Relationship="Self.FK_rentals_users" FromRole="users" ToRole="rentals" />
+        </EntityType>
+        <Association Name="FK_comments_apartments">
+          <End Role="apartments" Type="Self.apartment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="comments" Type="Self.comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="apartments">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="comments">
+              <PropertyRef Name="apart_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rentals_apartments">
+          <End Role="apartments" Type="Self.apartment" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="rentals" Type="Self.rental" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="apartments">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="rentals">
+              <PropertyRef Name="apartment_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rom_images_apartments">
+          <End Role="apartments" Type="Self.apartment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="rom_images" Type="Self.rom_images" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="apartments">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="rom_images">
+              <PropertyRef Name="apart_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_comments_users">
+          <End Role="users" Type="Self.user" Multiplicity="1" />
+          <End Role="comments" Type="Self.comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="comments">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rentals_users">
+          <End Role="users" Type="Self.user" Multiplicity="0..1" />
+          <End Role="rentals" Type="Self.rental" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="rentals">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AakarEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="apartments" EntityType="Self.apartment" />
+          <EntitySet Name="comments" EntityType="Self.comment" />
+          <EntitySet Name="rentals" EntityType="Self.rental" />
+          <EntitySet Name="rom_images" EntityType="Self.rom_images" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <AssociationSet Name="FK_comments_apartments" Association="Self.FK_comments_apartments">
+            <End Role="apartments" EntitySet="apartments" />
+            <End Role="comments" EntitySet="comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rentals_apartments" Association="Self.FK_rentals_apartments">
+            <End Role="apartments" EntitySet="apartments" />
+            <End Role="rentals" EntitySet="rentals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rom_images_apartments" Association="Self.FK_rom_images_apartments">
+            <End Role="apartments" EntitySet="apartments" />
+            <End Role="rom_images" EntitySet="rom_images" />
+          </AssociationSet>
+          <AssociationSet Name="FK_comments_users" Association="Self.FK_comments_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="comments" EntitySet="comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rentals_users" Association="Self.FK_rentals_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="rentals" EntitySet="rentals" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AakarModel1StoreContainer" CdmEntityContainer="AakarEntities2">
+          <EntitySetMapping Name="apartments">
+            <EntityTypeMapping TypeName="AakarModel1.apartment">
+              <MappingFragment StoreEntitySet="apartments">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="country" ColumnName="country" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="area" ColumnName="area" />
+                <ScalarProperty Name="floor" ColumnName="floor" />
+                <ScalarProperty Name="room_count" ColumnName="room_count" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="details" ColumnName="details" />
+                <ScalarProperty Name="available" ColumnName="available" />
+                <ScalarProperty Name="kiswa" ColumnName="kiswa" />
+                <ScalarProperty Name="main_img" ColumnName="main_img" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="comments">
+            <EntityTypeMapping TypeName="AakarModel1.comment">
+              <MappingFragment StoreEntitySet="comments">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="apart_id" ColumnName="apart_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rentals">
+            <EntityTypeMapping TypeName="AakarModel1.rental">
+              <MappingFragment StoreEntitySet="rentals">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="apartment_id" ColumnName="apartment_id" />
+                <ScalarProperty Name="rental_date" ColumnName="rental_date" />
+                <ScalarProperty Name="rental_period" ColumnName="rental_period" />
+                <ScalarProperty Name="price" ColumnName="price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rom_images">
+            <EntityTypeMapping TypeName="AakarModel1.rom_images">
+              <MappingFragment StoreEntitySet="rom_images">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="apart_id" ColumnName="apart_id" />
+                <ScalarProperty Name="image" ColumnName="image" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="AakarModel1.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="role" ColumnName="role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
